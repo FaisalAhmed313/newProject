@@ -1,0 +1,131 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+
+    <title>Document</title>
+    <style>
+        body{
+            font-family: arial;
+            color: white;
+            font-size: 20px;
+            background-color: black;
+        }
+        header {
+            background-color: rgba(164, 171, 187, 0.2);
+        }
+        nav li {
+            margin-left: 60px;
+        }
+        nav li:hover {
+            cursor: pointer;
+            color: red;
+            margin-left: 60px;
+        }
+       
+        
+    </style>
+    <script> 
+   
+    function loadProduct(data){
+      data.map(function(products){
+        let card = document.createElement("div");
+        
+        card.className ="card w-25"
+        
+        card.innerHTML =       `
+        <div class="card-header">
+        <h2>${products.title}</h2>    
+        </div>
+        <div class="card-body">
+        <img src="${products.image}" width="200" height="200px">    
+        </div>
+        <div class="card-footer">
+        <button class="btn btn-warning w-100">Add to cart</button>    
+        </div>
+        ` 
+        document.querySelector("main").appendChild(card)
+
+      })
+      }
+
+    let categories = ["Electronics","Casuals","Footwear"];
+    function loadcategories(){
+
+        categories.map(function(category){
+            Options = document.createElement("option");
+
+            Options.innerHTML = category
+
+            document.getElementById("items").appendChild(Options);
+        })
+        
+    }
+     
+    // let filteredProdcuts = [];
+    function Searchproducts(){
+        let txtSearch = document.getElementById("txtsearch").value.toLowerCase();
+        
+        let filteredProdcuts = allProdcuts.filter(function(products){
+            return products.title.toLowerCase().includes(txtSearch);
+        })
+
+        document.querySelector("main").innerHTML = "";
+
+        loadProduct(filteredProdcuts);
+        
+        
+    }
+    
+    let allProdcuts = [];
+      function bodyload(){
+       fetch("https://fakestoreapi.noksha.dev/api/products")
+       .then(function(response){
+        return response.json()
+       })
+       .then(function(products){
+         allProdcuts = products.data
+         loadProduct(allProdcuts)
+       })
+
+       loadcategories()
+
+      }
+    </script>
+</head>
+<body onload="bodyload()">
+    
+    <div>
+        <header class="d-flex justify-content-between p-3 mb-3">
+            <h2>Shopify</h2>
+            <div class="input-group w-25">
+                <input type="text" class="form-control" id="txtsearch" onkeyup="Searchproducts()" placeholder="Search products">
+                <button class="bi bi-search btn btn-warning"></button>
+            </div>
+            <nav class="d-flex list-unstyled">
+                <li>Electronics</li>
+                <li>Casuals</li>
+                <li>Footwear</li>
+                <li>Party wear</li>
+            </nav>
+            <div>
+                <button class="bi bi-cart btn btn-warning"></button>
+            </div>
+        </header>
+
+        <section class="row">
+            <div class="col-2">
+                <select id="items" class="form-select mt-3">
+                    
+                </select>
+            </div>
+            <main class="col-10 d-flex flex-wrap gap-3">
+          
+            </main>
+        </section>
+    </div>
+</body>
+</html>
