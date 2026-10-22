@@ -25,6 +25,21 @@
             color: red;
             margin-left: 60px;
         }
+        .bi-cart {
+            font-size: 20px;
+        }
+
+        #count {
+            font-size: 17px;
+            background-color: red;
+            color: white;
+            border-radius: 50px;
+            width: 14px;
+            text-align: center;
+            height: 21px;
+            right: 4px;
+            top: 0px;
+        }
        
         
     </style>
@@ -44,8 +59,10 @@
         <img src="${products.image}" width="200" height="200px">    
         </div>
         <div class="card-footer">
-        <button class="btn btn-warning w-100">Add to cart</button>    
+        <button onclick="AddtoCart('${products._id}')" class="btn btn-warning w-100">Add to cart</button>    
         </div>
+
+
         ` 
         document.querySelector("main").appendChild(card)
 
@@ -63,6 +80,29 @@
             document.getElementById("items").appendChild(Options);
         })
         
+    }
+    
+    let cartitems = [];
+
+    function CartCount(){
+    document.getElementById("count").innerHTML = cartitems.length;
+
+    }
+
+    function AddtoCart(id){
+      document.getElementById("count").style.display = "block"
+      fetch(`https://fakestoreapi.noksha.dev/api/products/${id}`)
+      .then(function(response){
+        return response.json()
+      })
+      .then(function(product){  
+     cartitems.push(product)
+     CartCount()
+       
+    //   .catch(function(result){
+    //     console.log(result);
+        
+      })
     }
      
     // let filteredProdcuts = [];
@@ -92,6 +132,7 @@
        })
 
        loadcategories()
+       CartCount()
 
       }
     </script>
@@ -112,7 +153,9 @@
                 <li>Party wear</li>
             </nav>
             <div>
-                <button class="bi bi-cart btn btn-warning"></button>
+                <button class="bi bi-cart btn btn-warning" style="position: relative;">
+                    <span id="count"  style="position: absolute; display: none;">1</span>
+                </button>
             </div>
         </header>
 
