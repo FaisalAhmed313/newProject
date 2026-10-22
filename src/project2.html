@@ -119,6 +119,24 @@
         
         
     }
+
+    function CartClick() {
+
+        document.querySelector(".modal-body").innerHTML = "";
+        cartitems.map(function(product){
+            let div = document.createElement("div")
+            div.className = "d-flex align-items-center gap-3 border-bottom p-2"
+            div.innerHTML = `
+              <h2>${product.title}</h2>
+              
+            <img src="${product.image}" width="100" height="100">
+            <div><span>${product.price.toLocaleString(`en-in`,{style:"currency",currency : "INR"})}</span></div>
+            `
+        
+
+            document.querySelector(".modal-body").appendChild(div)
+        })        
+    }
     
     let allProdcuts = [];
       function bodyload(){
@@ -153,9 +171,28 @@
                 <li>Party wear</li>
             </nav>
             <div>
-                <button class="bi bi-cart btn btn-warning" style="position: relative;">
+                <button data-bs-target="#cartDetails" onclick="CartClick()" data-bs-toggle="modal" class="bi bi-cart btn btn-warning" style="position: relative;">
                     <span id="count"  style="position: absolute; display: none;">1</span>
                 </button>
+                
+                <div class="modal" id="cartDetails">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            
+                            </div>
+                            <div class="modal-body">
+
+                            </div>
+                            <div class="modal-footer">
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </header>
 
@@ -170,5 +207,7 @@
             </main>
         </section>
     </div>
+      <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="/node_modules/jquery/dist/jquery.js"></script>
 </body>
 </html>
